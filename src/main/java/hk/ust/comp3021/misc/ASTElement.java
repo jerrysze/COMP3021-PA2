@@ -74,6 +74,16 @@ public abstract class ASTElement {
      * 
      * Hints: traverse the tree and put those satisfy predicates into array list
      */
+    public ArrayList<ASTElement> filter(Predicate<ASTElement> predicate) {
+        ArrayList<ASTElement> filteredElements = new ArrayList<>();
+        if (predicate.test(this)) {
+            filteredElements.add(this);
+        }
+        for (ASTElement child : getChildren()) {
+            filteredElements.addAll(child.filter(predicate));
+        }
+        return filteredElements;
+    }
   
 
     /**
@@ -86,6 +96,12 @@ public abstract class ASTElement {
      * 
      * Hints: traverse the tree and perform the action on every node in the tree
      */
+    public void forEach(Consumer<ASTElement> action) {
+        action.accept(this);
+        for (ASTElement child : getChildren()) {
+            child.forEach(action);
+        }
+    }
     
 
     /**
@@ -99,6 +115,17 @@ public abstract class ASTElement {
      * Hints: traverse the tree and group them if they belong to the same categories
      * Hints: please refer to the usage of {@link java.util.stream.Collectors#groupingBy(Function, Collector)}} to learn more about this method
      */
+    public <K> Map<K, ArrayList<ASTElement>> groupingBy(Function<ASTElement, K> classifier) {
+        Map<K, ArrayList<ASTElement>> groupedElements = new HashMap<>();
+        K key = classifier.apply(this);
+        groupedElements.computeIfAbsent(key, k -> new ArrayList<>()).add(this);
+        for (ASTElement child : getChildren()) {
+            Map<K, ArrayList<ASTElement>> childGroupedElements = child.groupingBy(classifier);
+            childGroupedElements.forEach((k, v) ->
+                    groupedElements.computeIfAbsent(k, kk -> new ArrayList<>()).addAll(v));
+        }
+        return groupedElements;
+    }
 
 
 }
