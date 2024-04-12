@@ -25,7 +25,33 @@ public class QueryOnMethod {
      * Hints1: if func does not exist in current module, return empty list
      * Hints2: use {@link ASTElement#filter(Predicate)} method to implement the function
      */
-    public Function<String, List<String>> findEqualCompareInFunc;
+    public List<String> findEqualCompareInFunc(String funcName) {
+        List<String> results = new ArrayList<>();
+
+        // Find the function with the given name in the module
+        ASTFunction function = module.getFunctionByName(funcName);
+        if (function == null) {
+            return results; // Function not found, return empty list
+        }
+
+        // Filter the comparison expressions with operator "=="
+        List<ASTComparisonExpression> comparisons = function.filter(element ->
+                    element instanceof ASTComparisonExpression && ((ASTComparisonExpression) element).getOperator().equals("=="));
+
+            // Extract the line numbers and column offsets of the comparison expressions
+        for (ASTComparisonExpression comparison : comparisons) {
+            int startLineNo = comparison.getLineNo();
+            int startColOffset = comparison.getColOffset();
+            int endLineNo = comparison.getEndLineNo();
+            int endColOffset = comparison.getEndColOffset();
+            String result = startLineNo + ":" + startColOffset + "-" + endLineNo + ":" + endColOffset;
+            results.add(result);
+        }
+
+        return results;
+    }
+
+}
 
     /**
      * TODO `findFuncWithBoolParam` find all functions that use boolean parameter as if condition in current module {@link QueryOnMethod#module}
