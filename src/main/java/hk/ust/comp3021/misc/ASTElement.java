@@ -1,10 +1,15 @@
 package hk.ust.comp3021.misc;
 
-import hk.ust.comp3021.query.QueryOnNode;
-import hk.ust.comp3021.utils.*;
-import java.util.*;
-import java.util.function.*;
+import hk.ust.comp3021.utils.XMLNode;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.function.Consumer;
+import java.util.function.Function;
+import java.util.function.Predicate;
 import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 public abstract class ASTElement {
     private int lineno;
@@ -58,74 +63,69 @@ public abstract class ASTElement {
     }
 
     public abstract String getNodeType();
-    
     /*
      * Return direct children of current node, which are fields whose type is `ASTElement`.
      * Noticed that field whose class type is `ASTEnumOp` should not be regarded as children.
      */
     public abstract ArrayList<ASTElement> getChildren();
 
+    public ArrayList<ASTEnumOp> getOps() {
+        return new ArrayList<>();
+    }
+
+    public List<ASTEnumOp> getAllOp() {
+        ArrayList<ASTEnumOp> result = new ArrayList<>();
+        result.addAll(this.getOps());
+        this.getChildren().forEach(child -> result.addAll(child.getAllOp()));
+        return result;
+    }
+    public List<ASTElement> getAll() {
+        ArrayList<ASTElement> result = new ArrayList<>();
+        result.add(this);
+        this.getChildren().forEach(child -> result.addAll(child.getAll()));
+        return result;
+    }
     /**
-     * TODO `filter` mimic {@link java.util.stream.Stream#filter(Predicate)} but operates on AST tree structure instead of List 
      * TODO please design the function by yourself to pass complication and the provided test cases
      *
      * @param predicate representing a boolean-valued function that takes ASTElement as input parameter and returns a bool result
      * @return an ArrayList of ASTElement where predicate returns true
-     * 
      * Hints: traverse the tree and put those satisfy predicates into array list
      */
-    public ArrayList<ASTElement> filter(Predicate<ASTElement> predicate) {
-        ArrayList<ASTElement> filteredElements = new ArrayList<>();
+
+    public List<ASTElement> filter(Predicate<ASTElement> predicate) {
+        ArrayList<ASTElement> result = new ArrayList<>();
         if (predicate.test(this)) {
-            filteredElements.add(this);
+            result.add(this);
         }
-        for (ASTElement child : getChildren()) {
-            filteredElements.addAll(child.filter(predicate));
-        }
-        return filteredElements;
+        result.addAll(this.getChildren().stream().flatMap(child -> child.filter(predicate).stream()).collect(Collectors.toList()));
+        return result;
     }
-  
 
     /**
-     * TODO `forEach` mimic {@link Iterable#forEach(Consumer)} but operates on AST tree structure instead of List 
      * TODO please design the function by yourself to pass complication and the provided test cases
      *
-     * @param action representing an operation that accepts ASTElement as input and performs some action 
-     *               on it without returning any result.
+     * @param action representing an operation that accepts ASTElement as input and performs some action
      * @return null
-     * 
      * Hints: traverse the tree and perform the action on every node in the tree
      */
     public void forEach(Consumer<ASTElement> action) {
         action.accept(this);
-        for (ASTElement child : getChildren()) {
-            child.forEach(action);
-        }
+        this.getChildren().forEach(child -> child.forEach(action));
     }
-    
 
     /**
-     * TODO `groupingBy` mimic {@link java.util.stream.Collectors#groupingBy(Function, Collector)} )} but operates on AST tree structure instead of List 
+     * TODO `groupingBy` mimic {@link Collectors#groupingBy(Function, Collector)} )} but operates on AST tree structure instead of List
      * TODO please design the function by yourself to pass complication and the provided test cases
      *
-     * @param classifier representing a function that classifies an ASTElement argument and produces the classification result with generic type
+     * @param classifier representing a function that classifies an ASTElement argument and produces
      * @param collector representing a collector used to accumulate the ASTElement object into results
      * @return a map whose key and value are all generic types
-     * 
      * Hints: traverse the tree and group them if they belong to the same categories
-     * Hints: please refer to the usage of {@link java.util.stream.Collectors#groupingBy(Function, Collector)}} to learn more about this method
+     * Hints: please refer to the usage of {@link Collectors#groupingBy(Function, Collector)}} to learn more about this method
      */
-    public <K> Map<K, ArrayList<ASTElement>> groupingBy(Function<ASTElement, K> classifier) {
-        Map<K, ArrayList<ASTElement>> groupedElements = new HashMap<>();
-        K key = classifier.apply(this);
-        groupedElements.computeIfAbsent(key, k -> new ArrayList<>()).add(this);
-        for (ASTElement child : getChildren()) {
-            Map<K, ArrayList<ASTElement>> childGroupedElements = child.groupingBy(classifier);
-            childGroupedElements.forEach((k, v) ->
-                    groupedElements.computeIfAbsent(k, kk -> new ArrayList<>()).addAll(v));
-        }
-        return groupedElements;
-    }
-
+     public <A, R, T> Map<A, R> groupingBy(Function<ASTElement, ? extends A> classifier, Collector<ASTElement, T, R> collector) {
+        return getAll().stream().collect(Collectors.groupingBy(classifier, collector));
+     }
 
 }

@@ -1,12 +1,9 @@
 package hk.ust.comp3021.query;
 
-import hk.ust.comp3021.expr.*;
-import hk.ust.comp3021.misc.*;
-import hk.ust.comp3021.stmt.*;
-import hk.ust.comp3021.utils.*;
+import hk.ust.comp3021.utils.ASTModule;
 
-import java.util.*;
-import java.util.function.*;
+import java.util.List;
+import java.util.function.Supplier;
 
 public class BugDetector {
     ASTModule module = null;

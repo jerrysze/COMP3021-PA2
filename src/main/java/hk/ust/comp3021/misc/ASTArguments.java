@@ -1,8 +1,9 @@
 package hk.ust.comp3021.misc;
 
-import hk.ust.comp3021.expr.*;
-import hk.ust.comp3021.utils.*;
-import java.util.*;
+import hk.ust.comp3021.expr.ASTExpr;
+import hk.ust.comp3021.utils.XMLNode;
+
+import java.util.ArrayList;
 
 public class ASTArguments extends ASTElement {
     public class ASTArg extends ASTElement {
@@ -37,8 +38,6 @@ public class ASTArguments extends ASTElement {
             }
             return children;
         }
-        
-        
         @Override
         public String getNodeType() {
             return "arg";
@@ -70,7 +69,6 @@ public class ASTArguments extends ASTElement {
         }
 
     }
-    
     /*
     * Return the number of ASTArg child nodes
     */
@@ -88,7 +86,6 @@ public class ASTArguments extends ASTElement {
 
         return children;
     }
-    
 
     @Override
     public String getNodeType() {

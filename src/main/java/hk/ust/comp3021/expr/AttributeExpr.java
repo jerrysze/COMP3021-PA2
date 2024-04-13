@@ -1,8 +1,10 @@
 package hk.ust.comp3021.expr;
 
-import hk.ust.comp3021.misc.*;
+import hk.ust.comp3021.misc.ASTElement;
+import hk.ust.comp3021.misc.ASTEnumOp;
 import hk.ust.comp3021.utils.XMLNode;
-import java.util.*;
+
+import java.util.ArrayList;
 
 public class AttributeExpr extends ASTExpr {
     // Attribute(expr value, identifier attr, expr_context ctx)
@@ -12,7 +14,7 @@ public class AttributeExpr extends ASTExpr {
 
     public AttributeExpr(XMLNode node) {
         super(node);
-        this.exprType = ASTExpr.ExprType.Attribute;
+        this.exprType = ExprType.Attribute;
         this.value = ASTExpr.createASTExpr(node.getChildByIdx(0));
         this.attr = node.getAttribute("attr");
         this.ctx = new ASTEnumOp(node.getChildByIdx(1));
@@ -41,7 +43,6 @@ public class AttributeExpr extends ASTExpr {
     public String getAttr() {
         return attr;
     }
-    
 
     @Override
     public ArrayList<ASTElement> getChildren() {
@@ -49,6 +50,4 @@ public class AttributeExpr extends ASTExpr {
         children.add(value);
         return children;
     }
-    
-
 }

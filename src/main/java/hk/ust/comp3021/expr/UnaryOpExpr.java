@@ -1,8 +1,11 @@
 package hk.ust.comp3021.expr;
 
-import hk.ust.comp3021.misc.*;
-import hk.ust.comp3021.utils.*;
-import java.util.*;
+import hk.ust.comp3021.misc.ASTElement;
+import hk.ust.comp3021.misc.ASTEnumOp;
+import hk.ust.comp3021.utils.XMLNode;
+
+import java.util.ArrayList;
+import java.util.Arrays;
 
 public class UnaryOpExpr extends ASTExpr {
     // UnaryOp(unaryop op, expr operand)
@@ -11,7 +14,7 @@ public class UnaryOpExpr extends ASTExpr {
 
     public UnaryOpExpr(XMLNode node) {
         super(node);
-        this.exprType = ASTExpr.ExprType.UnaryOp;
+        this.exprType = ExprType.UnaryOp;
         this.op = new ASTEnumOp(node.getChildByIdx(0));
         this.operand = ASTExpr.createASTExpr(node.getChildByIdx(1));
     }
@@ -19,6 +22,12 @@ public class UnaryOpExpr extends ASTExpr {
     public ASTEnumOp getOp() {
         return op;
     }
+
+    @Override
+    public ArrayList<ASTEnumOp> getOps() {
+        return new ArrayList<>(Arrays.asList(op));
+    }
+
 
     @Override
     public ArrayList<ASTElement> getChildren() {

@@ -1,9 +1,11 @@
 package hk.ust.comp3021.stmt;
 
-import hk.ust.comp3021.expr.*;
-import hk.ust.comp3021.misc.*;
-import hk.ust.comp3021.utils.*;
-import java.util.*;
+import hk.ust.comp3021.expr.ASTExpr;
+import hk.ust.comp3021.misc.ASTElement;
+import hk.ust.comp3021.misc.ASTKeyWord;
+import hk.ust.comp3021.utils.XMLNode;
+
+import java.util.ArrayList;
 
 public class ClassDefStmt extends ASTStmt {
     /*
@@ -22,7 +24,7 @@ public class ClassDefStmt extends ASTStmt {
     public ClassDefStmt(XMLNode node) {
         super(node);
 
-        this.stmtType = ASTStmt.StmtType.ClassDef;
+        this.stmtType = StmtType.ClassDef;
         this.name = node.getAttribute("name");
 
         for (XMLNode baseNode : node.getChildByIdx(0).getChildren()) {
@@ -56,8 +58,10 @@ public class ClassDefStmt extends ASTStmt {
     public String getName() {
         return this.name;
     }
-    
 
+    public ArrayList<ASTExpr> getBases() {
+        return bases;
+    }
 }
 
 

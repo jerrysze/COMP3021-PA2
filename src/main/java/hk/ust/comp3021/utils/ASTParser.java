@@ -1,8 +1,11 @@
 package hk.ust.comp3021.utils;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 import java.nio.file.Paths;
-import java.util.*;
+import java.util.Map;
+import java.util.Stack;
 
 
 public class ASTParser {

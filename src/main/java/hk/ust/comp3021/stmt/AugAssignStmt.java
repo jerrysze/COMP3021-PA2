@@ -1,19 +1,24 @@
 package hk.ust.comp3021.stmt;
 
-import hk.ust.comp3021.expr.*;
-import hk.ust.comp3021.misc.*;
-import hk.ust.comp3021.utils.*;
-import java.util.*;
+import hk.ust.comp3021.expr.ASTExpr;
+import hk.ust.comp3021.misc.ASTElement;
+import hk.ust.comp3021.misc.ASTEnumOp;
+import hk.ust.comp3021.utils.XMLNode;
+
+import java.util.ArrayList;
+import java.util.Arrays;
 
 public class AugAssignStmt extends ASTStmt {
     // AugAssign(expr target, operator op, expr value)
     private ASTExpr target;
     private ASTEnumOp op;
     private ASTExpr value;
-
+    public ArrayList<ASTEnumOp> getOps() {
+        return new ArrayList<>(Arrays.asList(op));
+    }
     public AugAssignStmt(XMLNode node) {
         super(node);
-        this.stmtType = ASTStmt.StmtType.AugAssign;
+        this.stmtType = StmtType.AugAssign;
         this.target = ASTExpr.createASTExpr(node.getChildByIdx(0));
         this.op = new ASTEnumOp(node.getChildByIdx(1));
         this.value = ASTExpr.createASTExpr(node.getChildByIdx(2));
@@ -30,5 +35,4 @@ public class AugAssignStmt extends ASTStmt {
         children.add(value);
         return children;
     }
-    
 }

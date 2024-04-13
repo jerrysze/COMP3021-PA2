@@ -1,8 +1,10 @@
 package hk.ust.comp3021.expr;
 
-import hk.ust.comp3021.misc.*;
-import hk.ust.comp3021.utils.*;
-import java.util.*;
+import hk.ust.comp3021.misc.ASTElement;
+import hk.ust.comp3021.misc.ASTEnumOp;
+import hk.ust.comp3021.utils.XMLNode;
+
+import java.util.ArrayList;
 
 public class ListExpr extends ASTExpr {
     // List(expr* elts, expr_context ctx)
@@ -10,7 +12,7 @@ public class ListExpr extends ASTExpr {
     private ASTEnumOp ctx;
     public ListExpr(XMLNode node) {
         super(node);
-        this.exprType = ASTExpr.ExprType.List;
+        this.exprType = ExprType.List;
 
         for (XMLNode eltNode: node.getChildByIdx(0).getChildren()) {
             this.elts.add(ASTExpr.createASTExpr(eltNode));
@@ -18,6 +20,7 @@ public class ListExpr extends ASTExpr {
 
         this.ctx = new ASTEnumOp(node.getChildByIdx(1));
     }
+
 
     @Override
     public ArrayList<ASTElement> getChildren() {

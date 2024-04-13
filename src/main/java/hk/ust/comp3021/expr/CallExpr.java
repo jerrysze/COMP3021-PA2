@@ -1,8 +1,11 @@
 package hk.ust.comp3021.expr;
 
-import hk.ust.comp3021.misc.*;
-import hk.ust.comp3021.utils.*;
-import java.util.*;
+import hk.ust.comp3021.misc.ASTElement;
+import hk.ust.comp3021.misc.ASTKeyWord;
+import hk.ust.comp3021.utils.XMLNode;
+
+import java.util.ArrayList;
+import java.util.Stack;
 
 public class CallExpr extends ASTExpr {
     // Call(expr func, expr* args, keyword* keywords)
@@ -10,9 +13,11 @@ public class CallExpr extends ASTExpr {
     private ArrayList<ASTExpr> args = new ArrayList<>();
     private ArrayList<ASTKeyWord> keywords = new ArrayList<>();
 
+
+
     public CallExpr(XMLNode node) {
         super(node);
-        this.exprType = ASTExpr.ExprType.Call;
+        this.exprType = ExprType.Call;
         this.func = ASTExpr.createASTExpr(node.getChildByIdx(0));
         for (XMLNode argNode : node.getChildByIdx(1).getChildren()) {
             this.args.add(ASTExpr.createASTExpr(argNode));
@@ -89,7 +94,4 @@ public class CallExpr extends ASTExpr {
         children.addAll(keywords);
         return children;
     }
-    
-    
-
 }

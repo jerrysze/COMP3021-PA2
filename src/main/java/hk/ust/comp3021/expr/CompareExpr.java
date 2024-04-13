@@ -1,8 +1,10 @@
 package hk.ust.comp3021.expr;
 
-import hk.ust.comp3021.misc.*;
-import hk.ust.comp3021.utils.*;
-import java.util.*;
+import hk.ust.comp3021.misc.ASTElement;
+import hk.ust.comp3021.misc.ASTEnumOp;
+import hk.ust.comp3021.utils.XMLNode;
+
+import java.util.ArrayList;
 
 
 public class CompareExpr extends ASTExpr {
@@ -11,9 +13,11 @@ public class CompareExpr extends ASTExpr {
     private ArrayList<ASTEnumOp> ops = new ArrayList<>();
     private ArrayList<ASTExpr> comparators = new ArrayList<>();
 
+
+
     public CompareExpr(XMLNode node) {
         super(node);
-        this.exprType = ASTExpr.ExprType.Compare;
+        this.exprType = ExprType.Compare;
         this.left = ASTExpr.createASTExpr(node.getChildByIdx(0));
         for (XMLNode opNode : node.getChildByIdx(1).getChildren()) {
             this.ops.add(new ASTEnumOp(opNode));
@@ -34,5 +38,4 @@ public class CompareExpr extends ASTExpr {
         children.addAll(comparators);
         return children;
     }
-    
 }

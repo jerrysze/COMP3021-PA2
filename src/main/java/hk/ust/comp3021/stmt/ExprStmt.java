@@ -1,16 +1,17 @@
 package hk.ust.comp3021.stmt;
 
-import hk.ust.comp3021.expr.*;
-import hk.ust.comp3021.misc.*;
-import hk.ust.comp3021.utils.*;
-import java.util.*;
+import hk.ust.comp3021.expr.ASTExpr;
+import hk.ust.comp3021.misc.ASTElement;
+import hk.ust.comp3021.utils.XMLNode;
+
+import java.util.ArrayList;
 
 public class ExprStmt extends ASTStmt {
     // Expr(expr value)
     private ASTExpr value;
     public ExprStmt(XMLNode node) {
         super(node);
-        this.stmtType = ASTStmt.StmtType.Expr;
+        this.stmtType = StmtType.Expr;
         value = ASTExpr.createASTExpr(node.getChildByIdx(0));
     }
 
@@ -20,5 +21,4 @@ public class ExprStmt extends ASTStmt {
         children.add(value);
         return children;
     }
-    
 }

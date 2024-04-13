@@ -1,8 +1,9 @@
 package hk.ust.comp3021.stmt;
 
-import hk.ust.comp3021.expr.*;
-import hk.ust.comp3021.misc.*;
-import hk.ust.comp3021.utils.*;
+import hk.ust.comp3021.expr.ASTExpr;
+import hk.ust.comp3021.misc.ASTElement;
+import hk.ust.comp3021.utils.XMLNode;
+
 import java.util.ArrayList;
 
 
@@ -14,7 +15,7 @@ public class ForStmt extends ASTStmt {
     private ArrayList<ASTStmt> orelse = new ArrayList<>();
     public ForStmt(XMLNode node) {
         super(node);
-        this.stmtType = ASTStmt.StmtType.For;
+        this.stmtType = StmtType.For;
         this.target = ASTExpr.createASTExpr(node.getChildByIdx(0));
         this.iter = ASTExpr.createASTExpr(node.getChildByIdx(1));
 
@@ -37,5 +38,4 @@ public class ForStmt extends ASTStmt {
         children.addAll(orelse);
         return children;
     }
-    
 }

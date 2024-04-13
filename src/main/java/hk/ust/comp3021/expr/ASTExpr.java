@@ -1,7 +1,7 @@
 package hk.ust.comp3021.expr;
 
-import hk.ust.comp3021.misc.*;
-import hk.ust.comp3021.utils.*;
+import hk.ust.comp3021.misc.ASTElement;
+import hk.ust.comp3021.utils.XMLNode;
 
 public abstract class ASTExpr extends ASTElement {
     public enum ExprType {

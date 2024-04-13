@@ -1,8 +1,9 @@
 package hk.ust.comp3021.misc;
 
-import hk.ust.comp3021.expr.*;
-import hk.ust.comp3021.utils.*;
-import java.util.*;
+import hk.ust.comp3021.expr.ASTExpr;
+import hk.ust.comp3021.utils.XMLNode;
+
+import java.util.ArrayList;
 
 public class ASTKeyWord extends ASTElement {
     /*
@@ -26,10 +27,8 @@ public class ASTKeyWord extends ASTElement {
         children.add(value);
         return children;
     }
-    
     @Override
     public String getNodeType() {
         return "keyword";
     }
-    
 }

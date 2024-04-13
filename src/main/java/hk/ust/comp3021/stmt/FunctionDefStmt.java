@@ -1,9 +1,12 @@
 package hk.ust.comp3021.stmt;
 
-import hk.ust.comp3021.expr.*;
-import hk.ust.comp3021.misc.*;
-import hk.ust.comp3021.utils.*;
-import java.util.*;
+import hk.ust.comp3021.expr.ASTExpr;
+import hk.ust.comp3021.expr.CallExpr;
+import hk.ust.comp3021.misc.ASTArguments;
+import hk.ust.comp3021.misc.ASTElement;
+import hk.ust.comp3021.utils.XMLNode;
+
+import java.util.ArrayList;
 
 public class FunctionDefStmt extends ASTStmt {
     /*
@@ -19,7 +22,8 @@ public class FunctionDefStmt extends ASTStmt {
     public FunctionDefStmt(XMLNode node) {
         super(node);
 
-        this.stmtType = ASTStmt.StmtType.FunctionDef;
+        this.stmtType = StmtType.FunctionDef;
+
 
         this.name = node.getAttribute("name");
         this.args = new ASTArguments(node.getChildByIdx(0));
@@ -76,5 +80,10 @@ public class FunctionDefStmt extends ASTStmt {
         }
         return children;
     }
+
+    public String getMangle(String astID) {
+        return astID + "_" + getName() + "_" + getLineNo();
+    }
+
 
 }

@@ -1,6 +1,7 @@
 package hk.ust.comp3021.misc;
 
-import hk.ust.comp3021.utils.*;
+import hk.ust.comp3021.utils.XMLNode;
+
 import java.util.ArrayList;
 
 
@@ -157,7 +158,6 @@ public class ASTEnumOp extends ASTElement {
         ArrayList<ASTElement> children = new ArrayList<>();
         return children;
     }
-    
     @Override
     public String getNodeType() {
         return this.op.name();

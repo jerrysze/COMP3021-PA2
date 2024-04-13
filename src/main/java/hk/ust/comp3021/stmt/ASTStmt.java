@@ -1,7 +1,7 @@
 package hk.ust.comp3021.stmt;
 
-import hk.ust.comp3021.misc.*;
-import hk.ust.comp3021.utils.*;
+import hk.ust.comp3021.misc.ASTElement;
+import hk.ust.comp3021.utils.XMLNode;
 
 public abstract class ASTStmt extends ASTElement {
     enum StmtType {

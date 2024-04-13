@@ -1,8 +1,9 @@
 package hk.ust.comp3021.stmt;
 
-import hk.ust.comp3021.expr.*;
-import hk.ust.comp3021.misc.*;
-import hk.ust.comp3021.utils.*;
+import hk.ust.comp3021.expr.ASTExpr;
+import hk.ust.comp3021.misc.ASTElement;
+import hk.ust.comp3021.utils.XMLNode;
+
 import java.util.ArrayList;
 
 
@@ -14,7 +15,7 @@ public class IfStmt extends ASTStmt {
 
     public IfStmt(XMLNode node) {
         super(node);
-        this.stmtType = ASTStmt.StmtType.If;
+        this.stmtType = StmtType.If;
         this.test = ASTExpr.createASTExpr(node.getChildByIdx(0));
 
         for (XMLNode bodyNode: node.getChildByIdx(1).getChildren()) {
